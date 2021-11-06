@@ -35,9 +35,9 @@ pipeline {
           sh 'rm -rf SWE645HW3_API'
           sh "git config --global user.email 'chetana.p98@gmail.com'"
           sh 'git remote set-url origin git@github.com:cparupal/SWE645HW3_API.git'
-          sh 'git pull'
           sh 'git clone git@github.com:cparupal/SWE645HW3_API.git'
           sh 'cd SWE645HW3_API/surveyapi'
+          sh 'git pull'
           sh 'git checkout main'
           sh "sed -i 's/studentsurveyapi:.*/studentsurveyapi:${env.BUILD_ID}/' deployment.yaml"
           sh 'git add deployment.yaml'
