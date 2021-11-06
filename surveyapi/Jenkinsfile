@@ -11,6 +11,7 @@ pipeline {
           sh 'whoami'
           sh "git clone git@github.com:cparupal/SWE645HW3_API.git"
           sh "sed -i 's/studentsurveyapi:.*/studentsurveyapi:1.2/' SWE645HW3_API/surveyapi/deployment.yaml"
+          sh "git config --global user.name 'cparupal'"
           sh "git commit -m 'Uploading files from local'"
           sh "git push"
         }
