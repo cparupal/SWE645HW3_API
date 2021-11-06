@@ -4,21 +4,6 @@ pipeline {
     DOCKERHUB_PASS = credentials('docker-pass')
   }
   stages {
-    stage("Checking out git repo"){
-      steps{
-        script{
-          sh 'pwd'
-          sh 'whoami'
-          sh 'rm -rf SWE645HW3_API'
-          sh "git config --global user.email 'chetana.p98@gmail.com'"
-          sh "git clone git@github.com:cparupal/SWE645HW3_API.git"
-          sh "sed -i 's/studentsurveyapi:.*/studentsurveyapi:1.2/' SWE645HW3_API/surveyapi/deployment.yaml"
-          sh 'git add SWE645HW3_API/surveyapi/deployment.yaml'
-          sh "git commit -m 'Uploading files from local'"
-          sh "git push"
-        }
-      }
-    }
     stage ("Building the web app into a docker image"){
       steps {
         script {
@@ -40,6 +25,24 @@ pipeline {
       steps{
         script{
           sh "docker push cparupal/studentsurveyapi:${env.BUILD_ID}"
+        }
+      }
+    }
+    
+    stage("Updating deployment.yaml file with new Build"){
+      steps{
+        script{
+          sh 'rm -rf SWE645HW3_API'
+          sh "git config --global user.email 'chetana.p98@gmail.com'"
+          sh 'git remote set-url origin git@github.com:cparupal/SWE645HW3_API.git'
+          sh "git clone git@github.com:cparupal/SWE645HW3_API.git"
+          sh 'cd SWE645HW3_API'
+          sh 'git checkout main'
+          sh 'cd surveyapi'
+          sh "sed -i 's/studentsurveyapi:.*/studentsurveyapi:${env.BUILD_ID}/' SWE645HW3_API/surveyapi/deployment.yaml"
+          sh 'git add deployment.yaml'
+          sh "git commit -m 'Uploading deployment.yaml with build image ${env.BUILD_ID}'"
+          sh "git push"
         }
       }
     }
