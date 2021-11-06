@@ -9,6 +9,7 @@ pipeline {
         script{
           sh 'pwd'
           sh 'whoami'
+          sh 'rm -rf SWE645HW3_API'
           sh "git clone git@github.com:cparupal/SWE645HW3_API.git"
           sh "sed -i 's/studentsurveyapi:.*/studentsurveyapi:1.2/' SWE645HW3_API/surveyapi/deployment.yaml"
           sh "git config --global user.name 'cparupal'"
