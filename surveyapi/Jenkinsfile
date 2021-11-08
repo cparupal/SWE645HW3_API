@@ -39,6 +39,7 @@ pipeline {
           sh 'pwd'
           sh 'ls'
           dir('SWE645HW3_API/surveyapi'){
+            sh "git config --global user.email 'chetana.p98@gmail.com'"
             sh 'git checkout main'
             sh 'git pull'
             sh 'pwd'
